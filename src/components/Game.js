@@ -7,6 +7,9 @@ import RandomNumbersPanel from './RandomNumbersPanel';
 import { randomNumberGenerator } from '../store/util';
 import { decrementTime } from '../store/actionCreators';
 
+import Perf from 'react-addons-perf';
+window.Perf = Perf;
+
 // initial data
 //   target
 //   x numbers for buttons
@@ -32,6 +35,7 @@ class Game extends React.Component {
   }
 
   componentDidMount() {
+    Perf.start();
     this.intervalId = setInterval(() => { this.props.decrementTime(); }, 1000);
   }
 
@@ -41,6 +45,8 @@ class Game extends React.Component {
 
   stopTimer = () =>  {
     clearInterval(this.intervalId);
+    Perf.stop();
+    Perf.printWasted();
     this.gameOver = true;
   }
 
@@ -84,6 +90,10 @@ class Game extends React.Component {
     if (status === 'lost') return 'red';
   }
 
+  canPlay = () => {
+    return !(this.gameOver());
+  }
+
   render() {
     const gameStatus = this.computeGameStatus( );
     console.log('Game Status:', gameStatus);
@@ -101,7 +111,7 @@ class Game extends React.Component {
           style={{ backgroundColor: this.targetPanelColor(gameStatus) }}
         >{ this.target }</div>
         <RandomNumbersPanel
-          canPlay={ this.computeGameStatus() === 'playing' }
+          canPlay={ this.canPlay }
           randomNumbers={ this.randomNumbers }
         />
         { this.gameOver && <button onClick={ this.props.resetGame } >Play Again</button> }

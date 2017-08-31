@@ -21,7 +21,6 @@ const actionFunctions = {
 };
 
 const reducer = (state, action) => {
-  console.log('Reducer called with ', state, action);
   const actionFunction = actionFunctions[action.type];
   if (actionFunction) {
     return actionFunction(state, action.payload);

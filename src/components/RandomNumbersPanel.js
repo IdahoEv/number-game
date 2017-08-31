@@ -28,7 +28,7 @@ RandomNumbersPanel.propTypes = {
   randomNumbers: PropTypes.arrayOf(PropTypes.number).isRequired,
   selectNumber: PropTypes.func.isRequired,
   selectedNumbers: PropTypes.arrayOf(PropTypes.number).isRequired,
-  canPlay: PropTypes.bool.isRequired,
+  canPlay: PropTypes.func.isRequired,
   // store: PropTypes.object.isRequired
 };
 
