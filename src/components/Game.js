@@ -10,6 +10,7 @@ import { randomNumberGenerator } from '../store/util';
 class Game extends React.Component {
   static propTypes = {
     numberCount: PropTypes.number.isRequired,
+    store: PropTypes.object.isRequired
   };
 
   constructor(props) {
@@ -26,7 +27,9 @@ class Game extends React.Component {
     return (
       <div id="game">
         <div className='target'>{ this.target }</div>
-        <RandomNumbersPanel randomNumbers={ this.randomNumbers }/>
+        <RandomNumbersPanel randomNumbers={ this.randomNumbers }
+          store={ this.props.store }
+        />
       </div>
     );
   }

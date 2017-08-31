@@ -1,18 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+// console.log(ReactRedux);
 
-import store from '../store';
 import NumberButton from './NumberButton';
 
 const RandomNumbersPanel = (props) => {
-  console.log(store.getState());
+  // console.log(this.props.store.getState());
   const isNumberButtonSelected = (numberIndex) => {
-    return store.getState().selectedNumbers.indexOf(numberIndex) >= 0;
+    return props.selectedNumbers.indexOf(numberIndex) >= 0;
   };
   return (
     <div id='random-numbers'>
       { props.randomNumbers.map((number, index) =>
-        <NumberButton selected={ isNumberButtonSelected(index) } number={ number } key={ index } />
+        <NumberButton selected={ isNumberButtonSelected(index) }
+          onClick={ props.selectNumber }
+          number={ number }
+          id={ index }
+          key={ index } />
       ) }
     </div>
   );
@@ -20,6 +25,23 @@ const RandomNumbersPanel = (props) => {
 
 RandomNumbersPanel.propTypes = {
   randomNumbers: PropTypes.arrayOf(PropTypes.number).isRequired,
+  selectNumber: PropTypes.func.isRequired,
+  selectedNumbers: PropTypes.arrayOf(PropTypes.number).isRequired,
+  store: PropTypes.object.isRequired
 };
 
-export default RandomNumbersPanel;
+const mapStateToProps = (state) => {
+  // props for this component coming from global rodux state
+  return {
+    selectedNumbers: state.selectedNumbers
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    selectNumber: (numberIndex) => {
+      dispatch({ type: 'SELECT_NUMBER', payload: { index: numberIndex }});
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RandomNumbersPanel);

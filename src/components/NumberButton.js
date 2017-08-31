@@ -5,11 +5,13 @@ import PropTypes from 'prop-types';
 class NumberButton extends React.Component {
   static propTypes = {
     number: PropTypes.number.isRequired,
-    selected: PropTypes.bool.isRequired
+    selected: PropTypes.bool.isRequired,
+    onClick: PropTypes.func.isRequired,
+    id: PropTypes.number.isRequired
   }
 
   handleClick = () => {
-    console.log(this.props.number);
+    this.props.onClick(this.props.id);
   }
 
   render() {
