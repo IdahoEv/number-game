@@ -18,11 +18,6 @@ const actionFunctions = {
       remainingSeconds: state.remainingSeconds - 1
     };
   },
-  'NULL_TIME': (state) => {
-    return {...state,
-      remainingSeconds: '--'
-    };
-  }
 };
 
 const reducer = (state, action) => {

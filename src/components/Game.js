@@ -16,12 +16,13 @@ class Game extends React.Component {
     remainingSeconds: PropTypes.number.isRequired,
     selectedNumbers: PropTypes.arrayOf(PropTypes.number).isRequired,
     decrementTime: PropTypes.func.isRequired,
+    resetGame: PropTypes.func.isRequired,
+    updateScore: PropTypes.func.isRequired,
   };
 
   constructor(props) {
     super();
     // this.target = 10 + Math.floor(40 * Math.random());
-    this.gameOver = false;
     this.randomNumbers = Array.from({ length: props.numberCount }).map(() =>
       randomNumberGenerator()
     );
@@ -31,7 +32,6 @@ class Game extends React.Component {
   }
 
   componentDidMount() {
-    console.log('Component Did Mount');
     this.intervalId = setInterval(() => { this.props.decrementTime(); }, 1000);
   }
 
@@ -44,27 +44,38 @@ class Game extends React.Component {
     this.gameOver = true;
   }
 
-  endGame = () => {
+  endGame = (status) => {
+    if (status === 'won') {
+      this.props.updateScore(this.props.remainingSeconds);
+    }
     this.stopTimer();
   }
 
   computeGameStatus  = () => {
     const sum = this.props.selectedNumbers.reduce((acc, curr)=> acc + this.randomNumbers[curr], 0);
-    console.log(sum, this.target);
+    // console.log(sum, this.target);
     if (this.props.remainingSeconds <= 0) {
-      this.endGame();
       return 'lost';
     }
     if (sum < this.target) {
       return 'playing';
     }
     if (sum === this.target) {
-      this.endGame();
       return 'won';
     }
     if ((sum > this.target) || (this.props.remainingSeconds <= 0)) {
-      this.endGame();
       return 'lost';
+    }
+  }
+  gameOver = () => {
+    const status = this.computeGameStatus();
+    return (status !== 'playing');
+  }
+
+  componentDidUpdate() {
+    const status = this.computeGameStatus();
+    if (status === 'won' || status === 'lost') {
+      this.endGame(status);
     }
   }
 
@@ -78,8 +89,13 @@ class Game extends React.Component {
     console.log('Game Status:', gameStatus);
     return (
       <div id="game">
-        <div className="time-remaining">
-          { this.gameOver ? '--' : this.props.remainingSeconds }
+        <div id="stats-row">
+          <div id="time-remaining">
+            { this.gameOver() ? '--' : this.props.remainingSeconds }
+          </div>
+          <div id="score">
+            { this.props.score }
+          </div>
         </div>
         <div className='target'
           style={{ backgroundColor: this.targetPanelColor(gameStatus) }}
@@ -88,6 +104,7 @@ class Game extends React.Component {
           canPlay={ this.computeGameStatus() === 'playing' }
           randomNumbers={ this.randomNumbers }
         />
+        { this.gameOver && <button onClick={ this.props.resetGame } >Play Again</button> }
       </div>
     );
   }
@@ -99,4 +116,5 @@ const mapStateToProps = (state) => {
     remainingSeconds: state.remainingSeconds,
   };
 };
+
 export default connect(mapStateToProps, { decrementTime })(Game);

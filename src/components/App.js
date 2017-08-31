@@ -8,24 +8,33 @@ class App extends React.Component {
   constructor() {
     super();
   }
+  store = storeFactory();
 
-  // getChildContext() {
-  //   // same as { store: store }
-  //   return { store: storeFactory() };
-  // }
-  //
-  // static childContextTypes = {
-  //   store: PropTypes.object.isRequired
-  // };
+  state = {
+    score: 0,
+    gameId: 1
+  }
+
+  resetGame = () => {
+    this.store = storeFactory();
+    this.setState( { gameId: Date.now() } );
+  }
+
+  updateScore = (secondsRemaining) => {
+    this.setState((prevState) => {
+      return { score: prevState.score + 100 * secondsRemaining };
+    });
+  }
 
   render() {
     return (
       <div>
-        <Provider store={storeFactory()}>
-          <Game numberCount={ 5 } />
+        <Provider key={ this.state.gameId } store={ this.store }>
+          <div id="container">
+            <div id="score">{ this.state.score } </div>
+            <Game numberCount={ 5 } resetGame={this.resetGame} updateScore={this.updateScore} />
+          </div>
         </Provider>
-        {/* <hr />
-        <Game numberCount={ 7 }/> */}
       </div>
     );
   }
