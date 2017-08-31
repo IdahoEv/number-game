@@ -23,12 +23,9 @@ const reducer = (state, action) => {
 };
 
 const storeFactory = () => {
-  return Redux.createStore(reducer, initialState);
+  return Redux.createStore(reducer, initialState,
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  );
 };
-// store.dispatch( { type: 'SELECT_NUMBER', payload: { index: 3 }});
-// console.log('getState', store.getState());
-// store.dispatch( { type: 'SELECT_NUMBER', payload: { index: 2 }});
-// console.log('getState', store.getState());
-// store.dispatch( { type: 'SELECT_NUMBER', payload: { index: 1 }});
-// console.log('getState', store.getState());
+
 export default storeFactory;

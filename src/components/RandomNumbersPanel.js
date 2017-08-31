@@ -27,7 +27,7 @@ RandomNumbersPanel.propTypes = {
   randomNumbers: PropTypes.arrayOf(PropTypes.number).isRequired,
   selectNumber: PropTypes.func.isRequired,
   selectedNumbers: PropTypes.arrayOf(PropTypes.number).isRequired,
-  store: PropTypes.object.isRequired
+  // store: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => {

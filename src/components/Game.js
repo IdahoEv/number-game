@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
 import RandomNumbersPanel from './RandomNumbersPanel';
 
 import { randomNumberGenerator } from '../store/util';
@@ -10,7 +12,8 @@ import { randomNumberGenerator } from '../store/util';
 class Game extends React.Component {
   static propTypes = {
     numberCount: PropTypes.number.isRequired,
-    store: PropTypes.object.isRequired
+    selectedNumbers: PropTypes.arrayOf(PropTypes.number).isRequired
+    // store: PropTypes.object.isRequired
   };
 
   constructor(props) {
@@ -23,17 +26,41 @@ class Game extends React.Component {
       .slice(0, props.numberCount - 2 )
       .reduce((acc, curr) =>  acc + curr);
   }
+  computeGameStatus  = () => {
+    const sum = this.props.selectedNumbers.reduce((acc, curr)=> acc + this.randomNumbers[curr], 0);
+    console.log(sum, this.target);
+    if (sum < this.target) {
+      return 'playing';
+    }
+    if (sum === this.target) {
+      return 'won';
+    }
+    if (sum > this.target) {
+      return 'lost';
+    }
+  }
   render() {
+    const gameStatus = this.computeGameStatus( );
+    console.log('Game Status:', gameStatus);
     return (
       <div id="game">
         <div className='target'>{ this.target }</div>
         <RandomNumbersPanel randomNumbers={ this.randomNumbers }
-          store={ this.props.store }
         />
       </div>
     );
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    selectedNumbers: state.selectedNumbers
+  };
+};
 
-export default Game;
+export default connect(mapStateToProps)(Game);
+
+
+// export default connect((state) => ({
+//   selectedNumbers: state.selectedNumbers
+// }))(Game);
