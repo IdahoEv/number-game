@@ -15,6 +15,7 @@ const RandomNumbersPanel = (props) => {
       { props.randomNumbers.map((number, index) =>
         <NumberButton selected={ isNumberButtonSelected(index) }
           onClick={ props.selectNumber }
+          canPlay={ props.canPlay }
           number={ number }
           id={ index }
           key={ index } />
@@ -27,6 +28,7 @@ RandomNumbersPanel.propTypes = {
   randomNumbers: PropTypes.arrayOf(PropTypes.number).isRequired,
   selectNumber: PropTypes.func.isRequired,
   selectedNumbers: PropTypes.arrayOf(PropTypes.number).isRequired,
+  canPlay: PropTypes.bool.isRequired,
   // store: PropTypes.object.isRequired
 };
 

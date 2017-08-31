@@ -1,8 +1,10 @@
+
 // console.log('Store file');
 import * as Redux from 'redux';
 
 const initialState = {
-  selectedNumbers: [ ]
+  selectedNumbers: [ ],
+  remainingSeconds: 10
 };
 
 const actionFunctions = {
@@ -10,11 +12,21 @@ const actionFunctions = {
     return {...state,
       selectedNumbers: [...state.selectedNumbers, payload.index ]
     };
+  },
+  'DECREMENT_TIME': (state) => {
+    return {...state,
+      remainingSeconds: state.remainingSeconds - 1
+    };
+  },
+  'NULL_TIME': (state) => {
+    return {...state,
+      remainingSeconds: '--'
+    };
   }
 };
 
 const reducer = (state, action) => {
-  console.log('calling reducer', action);
+  console.log('Reducer called with ', state, action);
   const actionFunction = actionFunctions[action.type];
   if (actionFunction) {
     return actionFunction(state, action.payload);

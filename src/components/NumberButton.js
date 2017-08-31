@@ -6,12 +6,15 @@ class NumberButton extends React.Component {
   static propTypes = {
     number: PropTypes.number.isRequired,
     selected: PropTypes.bool.isRequired,
+    canPlay: PropTypes.bool.isRequired,
     onClick: PropTypes.func.isRequired,
     id: PropTypes.number.isRequired
   }
 
   handleClick = () => {
-    this.props.onClick(this.props.id);
+    if (!this.props.selected && this.props.canPlay ) {
+      this.props.onClick(this.props.id);
+    }
   }
 
   render() {
