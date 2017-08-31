@@ -20,12 +20,23 @@ body {
 }
 #score {
   float: right;
+  color: green;
+  font-family: 'segment7';
+  font-size: 24px;
+  padding: .5em;
 }
 #random-numbers {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-evenly;
+}
+#stats-row {
+  background-color: black;
+  color: red;
+  font-family: 'segment7';
+  font-size: 24px;
+  padding: .5em;
 }
 .target, .number {
   height: 3em;
