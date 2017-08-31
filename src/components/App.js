@@ -9,8 +9,8 @@ class App extends React.Component {
     return (
       <div>
         <Game numberCount={ 5 }/>
-        <hr />
-        <Game numberCount={ 7 }/>
+        {/* <hr />
+        <Game numberCount={ 7 }/> */}
       </div>
     );
   }
