@@ -23,6 +23,8 @@
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.3.0",
+    "lodash": "^4.17.4",
+    "lodash.shuffle": "^4.2.0",
     "node-sass": "^4.5.3",
     "react-addons-perf": "^15.4.2",
     "sass-loader": "^6.0.6",

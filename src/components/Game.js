@@ -7,8 +7,7 @@ import RandomNumbersPanel from './RandomNumbersPanel';
 import { randomNumberGenerator } from '../store/util';
 import { decrementTime } from '../store/actionCreators';
 
-import Perf from 'react-addons-perf';
-window.Perf = Perf;
+import  shuffle  from 'lodash.shuffle';
 
 // initial data
 //   target
@@ -32,10 +31,10 @@ class Game extends React.Component {
     this.target = this.randomNumbers
       .slice(0, props.numberCount - 2 )
       .reduce((acc, curr) =>  acc + curr);
+    this.randomNumbers = shuffle(this.randomNumbers);
   }
 
   componentDidMount() {
-    Perf.start();
     this.intervalId = setInterval(() => { this.props.decrementTime(); }, 1000);
   }
 
@@ -45,8 +44,6 @@ class Game extends React.Component {
 
   stopTimer = () =>  {
     clearInterval(this.intervalId);
-    Perf.stop();
-    Perf.printWasted();
     this.gameOver = true;
   }
 
@@ -96,7 +93,6 @@ class Game extends React.Component {
 
   render() {
     const gameStatus = this.computeGameStatus( );
-    console.log('Game Status:', gameStatus);
     return (
       <div id="game">
         <div id="stats-row">
